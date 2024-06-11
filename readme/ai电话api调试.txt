@@ -1,0 +1,128 @@
+业务-场景-任务
+
+api参考链接：https://help.aliyun.com/zh/outboundbot/developer-reference/api-overview?spm=a2c4g.11186623.0.i2
+
+--CreateJobGroup参数（创建作业组，配置外呼任务的外呼策略）：
+
+InstanceId：业务管理中的业务id
+JobGroupName：任务组名称
+JobGroupDescription：任务组描述
+ScenarioId：业务场景，可以空字符串
+ScriptId：话术场景，业务下的场景管理中的场景id
+StrategyJson：任务执行策略
+					**可用示例
+							{
+								"maxAttemptsPerDay": 1,
+								"minAttemptInterval": 1,
+								"RepeatBy": "once",
+								"RepeatDays": "",
+								"workingTime": "",
+								"name": "策略名字",
+								"startTime": "",
+								"endTime": ""
+							}
+							
+					**StrategyJson参数说明
+							{
+								"maxAttemptsPerDay":1,         //每日最多尝试呼叫次数
+								"minAttemptInterval":1           //未接通重试间隔时间，单位分钟
+								"RepeatBy":"once",                  //once不指定、week每周重复，month每月重复，不传该字段默认是立即执行，如果为立即执行，则下面的字段都可以不上传
+								"RepeatDays":[                      //和上面关联，如果是once，不填写该字段，如果选择month，这里指定的就是具体几日，如果是week，这里就是周几
+									1,
+									2,
+									3,
+									4,
+									5
+								],
+								"workingTime":[   //once 如果是once，不填写该字段，如果是month或week，这里需要指定几点到几点
+									{
+										"beginTime":"09:00:00",
+										"endTime":"12:00:00"
+									}
+								],
+								"name":"策略名字",                        //策略名字，没有实际意义
+								"startTime":1631503815256,        //总时间范围，开始时间，时间戳毫秒
+								"endTime":1631521815256,         //总时间范围，结束时间，时间戳毫秒
+							}
+RecallStrategyJson：重拨策略
+					**可用示例
+							{
+								"emptyNumberIgnore": true,
+								"inArrearsIgnore": true,
+								"outOfServiceIgnore": true
+							}
+					
+					**RecallStrategyJson参数说明
+							emptyNumberIgnore：空号不外呼。
+							inArrearsIgnore：欠费不外呼。
+							outOfServiceIgnore：停机不外呼。
+							
+CallingNumber：主叫号码
+业务下的号码管理中：20240524
+
+RingingDuration：最优振铃时长
+填写一个整数即可，超时挂断
+
+Priority：作业组优先级
+Daily和Urgent二选一，Daily即可
+
+FlashSmsExtras：闪信推送的配置参数
+空字符串即可
+
+
+														
+--AssignJobs参数（上传联系人信息，调用创建的任务组中的呼叫策略，发起外呼）：
+InstanceId：业务管理中的业务id
+
+JobGroupId：任务组id，可以是在平台中手动创建的，也可以是通过CreateJobGroup接口生成的
+
+StrategyJson：作业组执行策略，可以空字符串
+
+RosterType：名单类型，可以空字符串
+
+JobDataParsingTaskId：解析外呼任务数据的任务id
+
+IsAsynchrony：是否异步，false即可
+
+CallingNumber：主叫号码
+业务下的号码管理中：20240524
+
+JobsJson：作业数据（被叫联系人信息）
+					**可用示例：
+							{
+								"extras":[
+									{
+										"value":"wwh",
+										"key":"name"
+									}
+								],
+								"contacts":[
+									{
+										"phoneNumber":"17355385975",
+										"name":"",
+										"referenceId":"01",
+										"honorific":""
+									}
+								]
+							}
+					**JobsJson参数说明
+							{
+								"extras":[                                                       //非必传字段，如果画布中有引用变量则必传
+									{
+										"value":"2019-08-21 09:49:59.0",        // 变量内容
+										"key":"businessParamOne"                // 自定义变量字段1，在画布中通过${envVars['VENDOR_PARAM']['自定义字段']}
+									},
+									{
+										"value":"办理事件",                              // 变量内容
+										"key":"businessParamTwo"               // 自定义变量字段2，在画布中通过${envVars['VENDOR_PARAM']['自定义字段']}
+									},
+								],
+								"contacts":[                                              //必传字段
+									{
+										"phoneNumber":"1851*******",      //必传字段，号码名单
+										"name":"张三",                                //非必传字段，姓名
+										"referenceId":"01",                         //必传字段，
+										"honorific":"张先生"                       //非必传字段
+									}
+								]
+							}

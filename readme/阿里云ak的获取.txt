@@ -1,0 +1,8 @@
+创建ak教程链接：https://help.aliyun.com/zh/ram/user-guide/create-an-accesskey-pair-1?spm=a2c4g.11186623.0.i2
+1、登录RAM控制台：https://ram.console.aliyun.com/overview
+2、创建ARM用户：https://help.aliyun.com/zh/ram/user-guide/create-a-ram-user?spm=a2c4g.11186623.0.i1#task-187540
+		访问方式：OpenAPI调用访问
+3、创建ak
+4、为创建的用户赋权：
+		账号级别的权限：只读访问智能外呼（Outboundbot） 的权限、管理智能外呼服务（Outboundbot）权限
+5、调用adk即可
