@@ -28,10 +28,10 @@ class Sample:
         config = open_api_models.Config(
             # 必填，请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID。,
             # access_key_id=os.environ['ALIBABA_CLOUD_ACCESS_KEY_ID'],
-            access_key_id='LTAI5tCXoRaV3fPv4DJsWhwi',
+            access_key_id='',
             # 必填，请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_SECRET。,
             # access_key_secret=os.environ['ALIBABA_CLOUD_ACCESS_KEY_SECRET']
-            access_key_secret='pon3xBMpMOMwtjtpSHWBv2Trruc7Lr'
+            access_key_secret=''
         )
         # Endpoint 请参考 https://api.aliyun.com/product/OutboundBot
         config.endpoint = f'outboundbot.cn-shanghai.aliyuncs.com'
@@ -66,7 +66,7 @@ class Sample:
     ],
     "contacts":[
         {
-            "phoneNumber":"17355385975",
+            "phoneNumber":"18110988606",
             "name":"",
             "referenceId":"01",
             "honorific":""
